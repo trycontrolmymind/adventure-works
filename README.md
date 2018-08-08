@@ -2,6 +2,7 @@
 - API Layer
   - Node.js - Workers language
   - Express.js - Request router
+  - body-parser = Json parser middleware
   - Joi - validate incoming requests
   - Winston - logging things
   - BusMQ - queue manager
