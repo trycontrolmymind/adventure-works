@@ -1,6 +1,6 @@
 /** logging using common module with winston */
 const logger = require('../commons/logger');
-
+const bodyParser = require('body-parser');
 /** router using express */
 const express = require('express');
 const app = express();
@@ -12,6 +12,11 @@ const reviewsRoute = require('./routes/reviews');
 const PORT = process.env.SERVER_PORT || 8888;
 const ENV = process.env.NODE_ENV || 'production';
 const API_PREFIX = process.env.API_PREFIX || 'api';
+
+/** parse application/x-www-form-urlencoded */
+app.use(bodyParser.urlencoded({extended: false}));
+/** parse application/json */
+app.use(bodyParser.json());
 
 /** Global /api/ prefix for reviewsRoutes */
 app.use('/' + API_PREFIX, reviewsRoute);
