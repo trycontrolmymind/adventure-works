@@ -4,11 +4,17 @@
   "description": "Test API for MalwareBytes company",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "node -r dotenv/config src/js/api/index.js dotenv_config_path=conf/api-dev.env"
   },
   "author": "Yandimirkin V.",
   "license": "ISC",
   "devDependencies": {
-    "eslint-config-google": "^0.9.1"
+    "eslint-config-google": "^0.9.1",
+    "winston": "^3.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3"
   }
 }
