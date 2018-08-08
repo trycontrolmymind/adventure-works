@@ -4,13 +4,16 @@
   "description": "Test API for MalwareBytes company",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha 'specs/**/*.spec.js' -r dotenv/config dotenv_config_path='conf/api-test.env'",
     "start:dev": "node -r dotenv/config src/js/api/index.js dotenv_config_path=conf/api-dev.env"
   },
   "author": "Yandimirkin V.",
   "license": "ISC",
   "devDependencies": {
+    "chai": "^4.1.2",
     "eslint-config-google": "^0.9.1",
+    "mocha": "^5.2.0",
+    "node-fetch": "^2.2.0",
     "winston": "^3.0.0"
   },
   "dependencies": {
