@@ -1,0 +1,11 @@
+version: "3.2"
+services:
+  redis:
+    image: redis
+    command: "redis-server --appendonly yes"
+
+  api:
+    image: node:8.11.3
+    command: "node -v"
+    volumes:
+      - ./src/js/api:/src
