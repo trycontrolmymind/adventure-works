@@ -16,12 +16,44 @@ describe('API Node.js', () => {
     fetch('http://localhost:' + PORT + '/api/reviews', {
 
     })
-    .then((resp) => {
-      expect(resp.status).to.equal(404);
-      expect(resp.headers.get('x-powered-by')).to.equal(null);
-      done();
+      .then((resp) => {
+        expect(resp.status).to.equal(404);
+        expect(resp.headers.get('x-powered-by')).to.equal(null);
+        done();
+      })
+      .catch(done);
+  });
+
+  it('should return 400 if json is invalid', (done) => {
+    fetch('http://localhost:' + PORT + '/api/reviews', {
+      method: 'POST',
+      body: JSON.stringify({}),
     })
-    .catch(done);
+      .then((resp) => {
+        expect(resp.status).to.equal(400);
+        done();
+      })
+      .catch(done);
+  });
+
+  it('should return 200 if ok body', (done) => {
+    const body = {
+      name: 'Elvis Presley',
+      email: 'theking@elvismansion.com',
+      productid: '8',
+      review: 'I really love the product and will recommend!',
+    };
+
+    fetch('http://localhost:' + PORT + '/api/reviews', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(body),
+    })
+      .then((resp) => {
+        expect(resp.status).to.equal(200);
+        done();
+      })
+      .catch(done);
   });
 });
 
