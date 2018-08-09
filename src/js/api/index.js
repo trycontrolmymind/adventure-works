@@ -24,6 +24,24 @@ app.use('/' + API_PREFIX, reviewsRoute);
 /** Answer empty 404 if no route found */
 app.use((_, res) => res.sendStatus(404));
 
+const {Pool, getReviews} = require('../commons/models/review');
+
+Pool.connect()
+  .then((client) => {
+    getReviews(client)
+      .then((result) => {
+        logger.warn(JSON.stringify(result));
+        client.release();
+      })
+      .catch((error) => {
+        logger.error(error, 0);
+        client.release();
+      });
+  })
+  .catch((error) => {
+    logger.error(error, 1);
+  });
+
 /** Listen PORT for incoming requests */
 app.listen(PORT, () => {
   logger.info(

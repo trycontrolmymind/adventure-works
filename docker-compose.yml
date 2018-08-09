@@ -5,10 +5,12 @@ services:
     command: ["redis-server", "--appendonly", "yes"]
 
   api:
+    depends_on: [db]
     image: node:8.11.3
-    command: "node -v"
+    command: "npm run start:dev"
+    working_dir: "/src"
     volumes:
-      - ./src/js/api:/src
+      - .:/src
 
   db:
     container_name: db
