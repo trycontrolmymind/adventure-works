@@ -21,7 +21,6 @@ module.exports = (req, res, next) => {
   Joi.validate(req.body, schema, (err) => {
     if (err) {
       logger.error(err);
-      console.log(req.body);
       return res.sendStatus(400);
     }
 

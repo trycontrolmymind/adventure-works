@@ -6,6 +6,8 @@
   - Joi - validate incoming requests
   - Winston - logging things
   - BusMQ - queue manager
+  - Fetch - request simplify
+  - Mocha, Chai - testing
 - DB Layer - PostgreSQL
 - Queue Layer - Redis
 - Nginx Proxy - to load balance
