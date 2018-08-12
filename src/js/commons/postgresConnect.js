@@ -8,18 +8,19 @@ let client = null;
  */
 function connectPool() {
   const pool = new Pool();
+
   /**
    * Connect to a Postgres
-   *
    * @return {Promise}
    */
   function _connectPool() {
     return pool.connect()
       .then((connect) => {
         client = connect;
-        return Promise.resolve();
+        return;
       })
       .catch((error) => {
+        /** Reconnect on errors */
         setTimeout(() => {
           _connectPool()
           .then((_connection) => {
@@ -30,7 +31,7 @@ function connectPool() {
             logger.error(error);
           });
         }, 1000);
-        return Promise.reject(error);
+        throw error;
       });
   };
 
