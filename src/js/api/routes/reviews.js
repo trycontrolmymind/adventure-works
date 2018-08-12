@@ -1,8 +1,13 @@
+const logger = require('../../commons/logger');
 /** Create reviews router */
 const express = require('express');
 const reviews = express();
 /** middleware to validate request */
 const validateReview = require('../middleware/validateReview');
+/** review model */
+const {getClient} = require('../../commons/postgresConnect');
+const {insertReview} = require('../../commons/models/review');
+
 /** disable x-powered-by: express */
 reviews.disable('x-powered-by');
 
@@ -10,7 +15,33 @@ reviews.disable('x-powered-by');
 reviews.post('/reviews', validateReview, (req, res) => {
   if (!req.body) return res.sendStatus(400);
 
-  res.send('test');
+  const client = getClient();
+  if (!client) {
+    return res.json({
+      success: false,
+      message: 'No connection to DB',
+    });
+  }
+
+  client
+    .query(
+      /** Get query to insertReview */
+      insertReview(req.body)
+    )
+    /** Try to insert query */
+    .then((result) => {
+      res.send({
+        success: true,
+        reviewId: result.rows[0].productreviewid,
+      });
+    })
+    .catch((error) => {
+      logger.error(error);
+      res.send({
+        success: false,
+        message: error.detail,
+      });
+    });
 });
 
 module.exports = reviews;
