@@ -7,6 +7,9 @@ const app = express();
 const reviewsRoute = require('./routes/reviews');
 const {connectPool} = require('../commons/postgresConnect');
 
+const bus = require('../commons/redisConnect');
+
+/** PostgreSQL connection */
 connectPool()
 .then(() => {
   logger.info('Connected to Postgres...');
@@ -14,6 +17,9 @@ connectPool()
 .catch((error) => {
   logger.error(error);
 });
+
+/** Redis connection */
+bus.connect();
 
 /** disable x-powered-by: express */
 app.disable('x-powered-by');

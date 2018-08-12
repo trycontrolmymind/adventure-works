@@ -7,7 +7,8 @@ const validateReview = require('../middleware/validateReview');
 /** review model */
 const {getClient} = require('../../commons/postgresConnect');
 const {insertReview} = require('../../commons/models/review');
-
+const bus = require('../../commons/redisConnect');
+const REVIEW_QUEUE = process.env.REVIEW_QUEUE || 'review-queue';
 /** disable x-powered-by: express */
 reviews.disable('x-powered-by');
 
@@ -34,13 +35,23 @@ reviews.post('/reviews', validateReview, (req, res) => {
         success: true,
         reviewId: result.rows[0].productreviewid,
       });
+
+      /** Add this review to queue */
+      const queue = bus.queue(REVIEW_QUEUE);
+      queue.attach();
+      queue.push({
+        reviewId: result.rows[0].productreviewid,
+        text: req.body.review,
+      });
     })
     .catch((error) => {
       logger.error(error);
-      res.send({
-        success: false,
-        message: error.detail,
-      });
+      if (!res.finished) {
+        res.send({
+          success: false,
+          message: error.detail,
+        });
+      }
     });
 });
 

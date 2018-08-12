@@ -1,11 +1,14 @@
 version: "3.2"
 services:
   redis:
+    container_name: redis
     image: redis
     command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - 6379:6379
 
   api:
-    depends_on: [db]
+    depends_on: [db, redis]
     image: node:8.11.3
     command: "npm run start:dev"
     working_dir: "/src"
