@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha 'specs/**/*.spec.js' -r dotenv/config dotenv_config_path='conf/api-test.env'",
-    "start:dev": "node -r dotenv/config src/js/api/index.js dotenv_config_path=conf/api-dev.env"
+    "start:dev": "node -r dotenv/config src/js/api/index.js dotenv_config_path=conf/api-dev.env",
+    "debug:dev": "node --inspect -r dotenv/config src/js/api/index.js dotenv_config_path=conf/api-dev.env"
   },
   "author": "Yandimirkin V.",
   "license": "ISC",
