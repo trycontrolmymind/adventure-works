@@ -7,7 +7,8 @@
     "test": "mocha 'specs/**/*.spec.js' -r dotenv/config dotenv_config_path='conf/api-test.env'",
     "start:dev": "node -r dotenv/config src/js/api/index.js dotenv_config_path=conf/api-dev.env",
     "debug:dev": "node --inspect -r dotenv/config src/js/api/index.js dotenv_config_path=conf/api-dev.env",
-    "start:w1:dev": "node -r dotenv/config src/js/worker-reviewer/index.js dotenv_config_path=conf/api-dev.env"
+    "start:w1:dev": "node -r dotenv/config src/js/worker-reviewer/index.js dotenv_config_path=conf/api-dev.env",
+    "start:w2:dev": "node -r dotenv/config src/js/worker-notify/index.js dotenv_config_path=conf/api-dev.env"
   },
   "author": "Yandimirkin V.",
   "license": "ISC",
