@@ -1,18 +1,35 @@
-const {Pool} = require('pg');
-const pool = new Pool();
+// const logger = require('../logger');
 
-// the pool with emit an error on behalf of any idle clients
-// it contains if a backend error or network partition happens
-pool.on('error', (err, client) => {
-  console.error('Unexpected error on idle client', err);
-  process.exit(-1);
-});
-
-const getReviews = (client) => {
-  return client.query(
-    'SELECT * FROM production.productreview ORDER BY productreviewid ASC'
-  );
+const ReviewStatus = {
+  inreview: 1,
+  published: 2,
 };
 
-module.exports.Pool = pool;
-module.exports.getReviews = getReviews;
+/**
+ * Return query to insert review
+ * @param {*} review Review received
+ * @return {query} Query to handle with Postgres
+ */
+const insertReview = (review) => {
+ return {
+    name: 'insert-review',
+    text: 'INSERT INTO ' +
+          'production.productreview(productid, reviewername,' +
+          'emailaddress, rating, comments, productreviewstatusid) '+
+          'VALUES($1, $2, $3, $4, $5, $6) '+
+          'RETURNING productreviewid',
+    values: [
+      review['productid'],
+      review['name'],
+      review['email'],
+      3,
+      review['review'],
+      ReviewStatus.inreview,
+    ],
+ };
+};
+
+module.exports = {
+  ReviewStatus,
+  insertReview,
+};
