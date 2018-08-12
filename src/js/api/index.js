@@ -1,3 +1,7 @@
+/** Some env parameters */
+const PORT = process.env.SERVER_PORT || 8888;
+const ENV = process.env.NODE_ENV || 'production';
+const API_PREFIX = process.env.API_PREFIX || 'api';
 /** logging using common module with winston */
 const logger = require('../commons/logger');
 const bodyParser = require('body-parser');
@@ -6,7 +10,6 @@ const express = require('express');
 const app = express();
 const reviewsRoute = require('./routes/reviews');
 const {connectPool} = require('../commons/postgresConnect');
-
 const bus = require('../commons/redisConnect');
 
 /** PostgreSQL connection */
@@ -24,14 +27,11 @@ bus.connect();
 /** disable x-powered-by: express */
 app.disable('x-powered-by');
 
-/** Some env parameters */
-const PORT = process.env.SERVER_PORT || 8888;
-const ENV = process.env.NODE_ENV || 'production';
-const API_PREFIX = process.env.API_PREFIX || 'api';
-
-/** parse application/x-www-form-urlencoded */
+/**
+ * parse application/x-www-form-urlencoded
+ * and json
+ */
 app.use(bodyParser.urlencoded({extended: false}));
-/** parse application/json */
 app.use(bodyParser.json());
 
 /** Global /api/ prefix for reviewsRoutes */

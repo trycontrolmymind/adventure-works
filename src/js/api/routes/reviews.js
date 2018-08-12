@@ -39,9 +39,19 @@ reviews.post('/reviews', validateReview, (req, res) => {
       /** Add this review to queue */
       const queue = bus.queue(REVIEW_QUEUE);
       queue.attach();
-      queue.push({
+      const msg = {
         reviewId: result.rows[0].productreviewid,
-        text: req.body.review,
+        review: req.body.review,
+        email: req.body.email,
+        name: req.body.name,
+        productid: req.body.productid,
+      };
+      queue.push(msg, () => {
+        if (err) {
+          logger.error(err);
+        } else {
+          logger.info('[x] Push a msg to review Queue', msg);
+        }
       });
     })
     .catch((error) => {

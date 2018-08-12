@@ -3,6 +3,7 @@
 const ReviewStatus = {
   inreview: 1,
   published: 2,
+  inappreciate: 3,
 };
 
 /**
@@ -29,7 +30,29 @@ const insertReview = (review) => {
  };
 };
 
+/**
+ * Update status of existed product review
+ *
+ * @param {ReviewStatus} status Status to update
+ * @param {number} reviewId Review to update
+ * @return {query} query
+ */
+const updateStatus = (status, reviewId) => {
+  return {
+    name: 'update-review-status',
+    text: 'UPDATE ' +
+          'production.productreview ' +
+          'SET productreviewstatusid = $1' +
+          'WHERE productreviewid = $2',
+    values: [
+      status,
+      reviewId,
+    ],
+  };
+};
+
 module.exports = {
   ReviewStatus,
   insertReview,
+  updateStatus,
 };
