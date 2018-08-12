@@ -8,15 +8,27 @@ services:
       - 6379:6379
 
   api:
-    depends_on: [db, redis]
+    depends_on: [postgres, redis]
     image: node:8.11.3
     command: "npm run start:dev"
     working_dir: "/src"
     volumes:
       - .:/src
+    ports:
+      - 8888:8888
 
-  db:
-    container_name: db
+
+  worker-reviewer:
+    container_name: worker-reviewer
+    depends_on: [postgres, redis]
+    image: node:8.11.3
+    command: "npm run start:w1:dev"
+    working_dir: "/src"
+    volumes:
+      - .:/src
+
+  postgres:
+    container_name: postgres
     build:
       context: .
       dockerfile: src/docker/DB.Dockerfile

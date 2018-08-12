@@ -46,7 +46,7 @@ reviews.post('/reviews', validateReview, (req, res) => {
         name: req.body.name,
         productid: req.body.productid,
       };
-      queue.push(msg, () => {
+      queue.push(msg, (err) => {
         if (err) {
           logger.error(err);
         } else {
