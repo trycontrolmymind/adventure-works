@@ -127,3 +127,26 @@ Memory: 6 GB
   "errorCodes": {}
 }
 ```
+
+LoadTest using remote machine:
+- CPU: 1vCPU 2Ghz
+- Memory: 1GB
+
+```json
+{
+  "totalRequests": 1808,
+  "totalErrors": 0,
+  "totalTimeSeconds": 148.748090427,
+  "rps": 12,
+  "meanLatencyMs": 82.2,
+  "maxLatencyMs": 1087,
+  "minLatencyMs": 73,
+  "percentiles": {
+    "50": 78,
+    "90": 87,
+    "95": 90,
+    "99": 123
+  },
+  "errorCodes": {}
+}
+```
