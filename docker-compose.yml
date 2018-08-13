@@ -9,31 +9,40 @@ services:
 
   api:
     depends_on: [postgres, redis]
-    image: node:8.11.3
+    build:
+      context: .
+      dockerfile: src/docker/node.Dockerfile
     command: "npm run start:dev"
     working_dir: "/src"
     volumes:
       - .:/src
+      - node_modules:/src/node_modules
     ports:
       - 8888:8888
 
   worker-reviewer:
     container_name: worker-reviewer
     depends_on: [postgres, redis]
-    image: node:8.11.3
+    build:
+      context: .
+      dockerfile: src/docker/node.Dockerfile
     command: "npm run start:w1:dev"
     working_dir: "/src"
     volumes:
       - .:/src
+      - node_modules:/src/node_modules
 
   worker-notify:
     container_name: worker-notify
     depends_on: [postgres, redis]
-    image: node:8.11.3
+    build:
+      context: .
+      dockerfile: src/docker/node.Dockerfile
     command: "npm run start:w2:dev"
     working_dir: "/src"
     volumes:
       - .:/src
+      - node_modules:/src/node_modules
 
   postgres:
     container_name: postgres
@@ -50,3 +59,6 @@ services:
     image: adminer
     ports:
       - 8080:8080
+
+volumes:
+  node_modules:
